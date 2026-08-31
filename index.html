@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator BMI & Kalori Interaktif</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f172a',
+                        cardBg: '#1e293b',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="w-full max-w-xl bg-cardBg rounded-2xl shadow-2xl p-6 sm:p-8 border border-slate-800">
+        <header class="text-center mb-6">
+            <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Kalkulator BMI & Kalori</h1>
+            <p class="text-slate-400 text-sm mt-1">Pantau indeks massa tubuh dan kebutuhan kalori harianmu dengan mudah.</p>
+        </header>
+
+        <form id="bmiForm" class="space-y-4">
+            <!-- Jenis Kelamin -->
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">Jenis Kelamin</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <label class="flex items-center justify-center px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl cursor-pointer hover:border-emerald-500 transition">
+                        <input type="radio" name="gender" value="male" checked class="text-emerald-500 focus:ring-emerald-500 mr-2"> Pria
+                    </label>
+                    <label class="flex items-center justify-center px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl cursor-pointer hover:border-emerald-500 transition">
+                        <input type="radio" name="gender" value="female" class="text-emerald-500 focus:ring-emerald-500 mr-2"> Wanita
+                    </label>
+                </div>
+            </div>
+
+            <!-- Berat & Tinggi -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Berat Badan (kg)</label>
+                    <input type="number" id="weight" step="0.1" required placeholder="Contoh: 65" 
+                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-100">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Tinggi Badan (cm)</label>
+                    <input type="number" id="height" step="0.1" required placeholder="Contoh: 170" 
+                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-100">
+                </div>
+            </div>
+
+            <!-- Usia & Aktivitas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Usia (tahun)</label>
+                    <input type="number" id="age" required placeholder="Contoh: 25" 
+                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-100">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Tingkat Aktivitas</label>
+                    <select id="activity" class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-100">
+                        <option value="1.2">Jarang / Tidak pernah berolahraga</option>
+                        <option value="1.375">Ringan (Olahraga 1-3x seminggu)</option>
+                        <option value="1.55" selected>Sedang (Olahraga 3-5x seminggu)</option>
+                        <option value="1.725">Berat (Olahraga 6-7x seminggu)</option>
+                        <option value="1.9">Sangat Berat (Atlet / Pekerja Fisik)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full mt-2 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 font-semibold rounded-xl shadow-lg transition duration-200 text-slate-950">
+                Hitung Sekarang
+            </button>
+        </form>
+
+        <!-- Kotak Hasil -->
+        <div id="resultBox" class="hidden mt-6 p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-4">
+            <h2 class="text-lg font-semibold text-emerald-400 border-b border-slate-800 pb-2">Hasil Analisis Kesehatan</h2>
+            <div class="grid grid-cols-2 gap-4 text-center">
+                <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50">
+                    <p class="text-xs text-slate-400">Nilai BMI</p>
+                    <p id="bmiValue" class="text-2xl font-bold text-slate-100 mt-1">-</p>
+                    <p id="bmiCategory" class="text-xs font-semibold mt-1">-</p>
+                </div>
+                <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50">
+                    <p class="text-xs text-slate-400">Kalori Harian (TDEE)</p>
+                    <p id="tdeeValue" class="text-2xl font-bold text-cyan-400 mt-1">-</p>
+                    <p class="text-xs text-slate-400 mt-1">Kkal / hari</p>
+                </div>
+            </div>
+            <div class="text-xs text-slate-400 space-y-1 pt-2 border-t border-slate-800">
+                <p>• <strong>BMR (Basal Metabolic Rate):</strong> <span id="bmrValue">-</span> Kkal</p>
+                <p id="weightAdvice" class="text-emerald-300 font-medium"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Logika -->
+    <script>
+        document.getElementById('bmiForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const age = parseInt(document.getElementById('age').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+
+            if (!weight || !height || !age) return;
+
+            // Hitung BMI
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            
+            // Kategori BMI
+            let category = '';
+            let colorClass = '';
+            let advice = '';
+
+            if (bmi < 18.5) {
+                category = 'Kekurangan Berat Badan (Underweight)';
+                colorClass = 'text-cyan-400';
+                advice = '💡 Saran: Tingkatkan asupan kalori bernutrisi dan latihan kekuatan.';
+            } else if (bmi >= 18.5 && bmi < 24.9) {
+                category = 'Berat Badan Normal (Ideal)';
+                colorClass = 'text-emerald-400';
+                advice = '✨ Saran: Pertahankan pola makan sehat dan rutinitas olahraga.';
+            } else if (bmi >= 25 && bmi < 29.9) {
+                category = 'Kelebihan Berat Badan (Overweight)';
+                colorClass = 'text-amber-400';
+                advice = '⚠️ Saran: Kurangi makanan tinggi gula/lemak dan tingkatkan aktivitas fisik.';
+            } else {
+                category = 'Obesitas';
+                colorClass = 'text-rose-400';
+                advice = '🚨 Saran: Konsultasikan dengan ahli gizi untuk program penurunan berat badan yang aman.';
+            }
+
+            // Hitung BMR (Rumus Mifflin-St Jeor)
+            let bmr;
+            if (gender === 'male') {
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+            } else {
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+            }
+
+            // Hitung TDEE (Total Daily Energy Expenditure)
+            const tdee = Math.round(bmr * activity);
+
+            // Tampilkan Hasil
+            document.getElementById('bmiValue').textContent = bmi.toFixed(1);
+            const catElem = document.getElementById('bmiCategory');
+            catElem.textContent = category;
+            catElem.className = `text-xs font-semibold mt-1 ${colorClass}`;
+
+            document.getElementById('bmrValue').textContent = Math.round(bmr);
+            document.getElementById('tdeeValue').textContent = tdee.toLocaleString('id-ID');
+            document.getElementById('weightAdvice').innerHTML = advice;
+
+            document.getElementById('resultBox').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
