@@ -23,12 +23,12 @@
 <body class="bg-darkBg text-slate-100 min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 selection:bg-emerald-500/30">
 
     <div class="w-full max-w-2xl bg-cardBg/90 backdrop-blur-xl rounded-3xl shadow-2xl p-6 sm:p-10 border border-white/5 relative overflow-hidden">
-        <div class="absolute -top-32 -right-32 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        
         <header class="text-center mb-8 relative z-10">
-            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-br from-emerald-400 to-cyan-400 bg-clip-text text-transparent pb-1">Analisis Kesehatan</h1>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100 pb-1">Analisis Kesehatan</h1>
             <p class="text-slate-400 text-sm mt-2">Pantau BMI, Kebutuhan Kalori (TDEE), & Makro Nutrisi Harian.</p>
-            <p class="text-slate-500 text-xs mt-2 font-medium">Developed by <a href="https://portofolio-fadjri.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-cyan-400 hover:underline transition-colors">Fadjri Works</a></p>
+            <p class="text-slate-500 text-xs mt-2 font-medium">Developed by <a href="https://portofolio-fadjri.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-slate-100 hover:underline transition-colors">Fadjri Works</a></p>
         </header>
 
         <form id="bmiForm" class="space-y-4">
@@ -50,12 +50,12 @@
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">Berat Badan (kg)</label>
                     <input type="number" id="weight" step="0.1" required placeholder="Contoh: 65" 
-                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-100">
+                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-blue-500 text-slate-100">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">Tinggi Badan (cm)</label>
                     <input type="number" id="height" step="0.1" required placeholder="Contoh: 170" 
-                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-100">
+                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-blue-500 text-slate-100">
                 </div>
             </div>
 
@@ -64,11 +64,11 @@
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">Usia (tahun)</label>
                     <input type="number" id="age" required placeholder="Contoh: 25" 
-                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-100">
+                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-blue-500 text-slate-100">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">Tingkat Aktivitas</label>
-                    <select id="activity" class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-100">
+                    <select id="activity" class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:border-blue-500 text-slate-100">
                         <option value="1.2">Jarang / Tidak pernah berolahraga</option>
                         <option value="1.375">Ringan (Olahraga 1-3x seminggu)</option>
                         <option value="1.55" selected>Sedang (Olahraga 3-5x seminggu)</option>
@@ -112,7 +112,7 @@
                 <div class="bg-white/5 border border-white/10 p-5 rounded-2xl">
                     <p class="text-sm text-slate-400 font-medium mb-1">Kebutuhan Kalori (TDEE)</p>
                     <div class="flex items-baseline gap-2 mb-4">
-                        <span id="tdeeValue" class="text-4xl font-bold text-cyan-400">0</span>
+                        <span id="tdeeValue" class="text-4xl font-bold text-slate-100">0</span>
                         <span class="text-sm text-slate-500 font-medium">Kkal / Hari</span>
                     </div>
 
@@ -134,11 +134,11 @@
                 </div>
             </div>
 
-            <div class="mt-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex gap-4 items-start">
+            <div class="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex gap-4 items-start">
                 <div class="text-2xl">💡</div>
                 <div>
-                    <h4 class="text-sm font-semibold text-emerald-400">Rekomendasi Ahli</h4>
-                    <p id="weightAdvice" class="text-sm text-emerald-200/80 mt-1 leading-relaxed"></p>
+                    <h4 class="text-sm font-semibold text-blue-400">Rekomendasi Ahli</h4>
+                    <p id="weightAdvice" class="text-sm text-slate-300 mt-1 leading-relaxed"></p>
                 </div>
             </div>
         </div>
@@ -168,11 +168,11 @@
 
             if (bmi < 18.5) {
                 category = 'Kekurangan Berat Badan (Underweight)';
-                colorClass = 'text-cyan-400';
+                colorClass = 'text-slate-100';
                 advice = '💡 Saran: Tingkatkan asupan kalori bernutrisi dan latihan kekuatan.';
             } else if (bmi >= 18.5 && bmi < 24.9) {
                 category = 'Berat Badan Normal (Ideal)';
-                colorClass = 'text-emerald-400';
+                colorClass = 'text-blue-400';
                 advice = '✨ Saran: Pertahankan pola makan sehat dan rutinitas olahraga.';
             } else if (bmi >= 25 && bmi < 29.9) {
                 category = 'Kelebihan Berat Badan (Overweight)';
