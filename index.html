@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator BMI & Kalori Interaktif</title>
+    <title>ProFit - Kalkulator BMI & Makro Nutrisi</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -20,12 +20,14 @@
         }
     </script>
 </head>
-<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
+<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 selection:bg-emerald-500/30">
 
-    <div class="w-full max-w-xl bg-cardBg rounded-2xl shadow-2xl p-6 sm:p-8 border border-slate-800">
-        <header class="text-center mb-6">
-            <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Kalkulator BMI & Kalori</h1>
-            <p class="text-slate-400 text-sm mt-1">Pantau indeks massa tubuh dan kebutuhan kalori harianmu dengan mudah.</p>
+    <div class="w-full max-w-2xl bg-cardBg/90 backdrop-blur-xl rounded-3xl shadow-2xl p-6 sm:p-10 border border-white/5 relative overflow-hidden">
+        <div class="absolute -top-32 -right-32 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <header class="text-center mb-8 relative z-10">
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-br from-emerald-400 to-cyan-400 bg-clip-text text-transparent pb-1">Analisis Kesehatan</h1>
+            <p class="text-slate-400 text-sm mt-2">Pantau BMI, Kebutuhan Kalori (TDEE), & Makro Nutrisi Harian.</p>
             <p class="text-slate-500 text-xs mt-2 font-medium">Developed by <a href="https://portofolio-fadjri.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-cyan-400 hover:underline transition-colors">Fadjri Works</a></p>
         </header>
 
@@ -82,23 +84,62 @@
         </form>
 
         <!-- Kotak Hasil -->
-        <div id="resultBox" class="hidden mt-6 p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-4">
-            <h2 class="text-lg font-semibold text-emerald-400 border-b border-slate-800 pb-2">Hasil Analisis Kesehatan</h2>
-            <div class="grid grid-cols-2 gap-4 text-center">
-                <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50">
-                    <p class="text-xs text-slate-400">Nilai BMI</p>
-                    <p id="bmiValue" class="text-2xl font-bold text-slate-100 mt-1">-</p>
-                    <p id="bmiCategory" class="text-xs font-semibold mt-1">-</p>
+        <div id="resultBox" class="hidden mt-8 pt-8 border-t border-white/10 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- BMI Card -->
+                <div class="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <p class="text-sm text-slate-400 font-medium mb-1">Skor BMI</p>
+                        <div class="flex items-baseline gap-2">
+                            <span id="bmiValue" class="text-4xl font-bold text-white">0</span>
+                            <span id="bmiCategory" class="text-sm font-semibold px-2 py-1 rounded-lg"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 relative w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 via-emerald-500 via-amber-500 to-rose-500 opacity-80"></div>
+                        <div id="bmiIndicator" class="absolute top-0 bottom-0 w-1.5 bg-white shadow-[0_0_8px_white] transition-all duration-1000 ease-out" style="left: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-slate-500 mt-2 font-medium uppercase tracking-wider">
+                        <span>Kurus</span>
+                        <span>Ideal</span>
+                        <span>Over</span>
+                        <span>Obese</span>
+                    </div>
                 </div>
-                <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50">
-                    <p class="text-xs text-slate-400">Kalori Harian (TDEE)</p>
-                    <p id="tdeeValue" class="text-2xl font-bold text-cyan-400 mt-1">-</p>
-                    <p class="text-xs text-slate-400 mt-1">Kkal / hari</p>
+
+                <!-- TDEE & Macros -->
+                <div class="bg-white/5 border border-white/10 p-5 rounded-2xl">
+                    <p class="text-sm text-slate-400 font-medium mb-1">Kebutuhan Kalori (TDEE)</p>
+                    <div class="flex items-baseline gap-2 mb-4">
+                        <span id="tdeeValue" class="text-4xl font-bold text-cyan-400">0</span>
+                        <span class="text-sm text-slate-500 font-medium">Kkal / Hari</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <p class="text-xs text-slate-400 font-medium uppercase tracking-wider mb-2">Makro Nutrisi Harian</p>
+                        <div class="flex items-center justify-between text-sm">
+                            <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-rose-400"></div><span class="text-slate-300">Protein (30%)</span></div>
+                            <span id="proteinVal" class="font-semibold text-white">0g</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-amber-400"></div><span class="text-slate-300">Karbo (40%)</span></div>
+                            <span id="carbsVal" class="font-semibold text-white">0g</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-blue-400"></div><span class="text-slate-300">Lemak (30%)</span></div>
+                            <span id="fatVal" class="font-semibold text-white">0g</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="text-xs text-slate-400 space-y-1 pt-2 border-t border-slate-800">
-                <p>• <strong>BMR (Basal Metabolic Rate):</strong> <span id="bmrValue">-</span> Kkal</p>
-                <p id="weightAdvice" class="text-emerald-300 font-medium"></p>
+
+            <div class="mt-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex gap-4 items-start">
+                <div class="text-2xl">💡</div>
+                <div>
+                    <h4 class="text-sm font-semibold text-emerald-400">Rekomendasi Ahli</h4>
+                    <p id="weightAdvice" class="text-sm text-emerald-200/80 mt-1 leading-relaxed"></p>
+                </div>
             </div>
         </div>
     </div>
