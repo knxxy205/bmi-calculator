@@ -203,8 +203,19 @@
             catElem.textContent = category;
             catElem.className = `text-xs font-semibold mt-1 ${colorClass}`;
 
-            document.getElementById('bmrValue').textContent = Math.round(bmr);
+            
             document.getElementById('tdeeValue').textContent = tdee.toLocaleString('id-ID');
+
+            const protein = Math.round((tdee * 0.3) / 4);
+            const carbs = Math.round((tdee * 0.4) / 4);
+            const fat = Math.round((tdee * 0.3) / 9);
+            if(document.getElementById('proteinVal')) document.getElementById('proteinVal').textContent = protein + 'g';
+            if(document.getElementById('carbsVal')) document.getElementById('carbsVal').textContent = carbs + 'g';
+            if(document.getElementById('fatVal')) document.getElementById('fatVal').textContent = fat + 'g';
+            let percentage = ((bmi - 15) / (40 - 15)) * 100;
+            percentage = Math.max(0, Math.min(100, percentage));
+            setTimeout(() => { if(document.getElementById('bmiIndicator')) document.getElementById('bmiIndicator').style.left = percentage + '%' }, 50);
+
             document.getElementById('weightAdvice').innerHTML = advice;
 
             document.getElementById('resultBox').classList.remove('hidden');
